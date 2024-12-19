@@ -556,6 +556,7 @@ typedef struct{
 	int target_chip_area;
 	int temperature;
 	int number_cache_levels;
+	// DJ L1_property, L2_property, L3_property not present in XML?
 	int L1_property;
 	int L2_property;
 	int homogeneous_L2s;
@@ -563,16 +564,20 @@ typedef struct{
 	int homogeneous_L3s;
 	int homogeneous_NoCs;
 	int homogeneous_ccs;
+	// DJ UNUSED?
 	int Max_area_deviation;
 	int Max_power_deviation;
+
 	int device_type;
 	bool longer_channel_device;
 	bool power_gating;
 	bool Embedded;
+	// DJ UNUSED?
 	bool opt_dynamic_power;
 	bool opt_lakage_power;
 	bool opt_clockrate;
 	bool opt_area;
+
 	int interconnect_projection_type;
 	int machine_bits;
 	int virtual_address_width;
@@ -583,6 +588,8 @@ typedef struct{
     double power_gating_vcc;
 	//system.core(0-n):3rd level
 	system_core core[64];
+
+	// DJ all of the below are pointless!
 	system_L1Directory L1Directory[64];
 	system_L2Directory L2Directory[64];
 	system_L2 L2[64];

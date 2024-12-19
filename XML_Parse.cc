@@ -1265,12 +1265,13 @@ void ParseXML::parse(char* filepath)
 //			exit(0);
 //		}
 		//__________________________________________Get system.mc____________________________________________
-		if (OrderofComponents_3layer>0) OrderofComponents_3layer=OrderofComponents_3layer+1;
+		// DJ FIXED THIS!
+		OrderofComponents_3layer=OrderofComponents_3layer+1;
 		xNode3=xNode2.getChildNode("component",OrderofComponents_3layer);
 		if (xNode3.isEmpty()==1) {
 			printf("some value(s) of number_of_cores/number_of_L2s/number_of_L3s/number_of_NoCs is/are not correct!");
 			exit(0);
-		}
+		} 
 		if (strstr(xNode3.getAttribute("id"),"system.mc")!=NULL)
 		{
 			itmp=xNode3.nChildNode("param");
@@ -1306,7 +1307,7 @@ void ParseXML::parse(char* filepath)
 			exit(0);
 		}
 		//__________________________________________Get system.niu____________________________________________
-		if (OrderofComponents_3layer>0) OrderofComponents_3layer=OrderofComponents_3layer+1;
+		OrderofComponents_3layer=OrderofComponents_3layer+1;
 		xNode3=xNode2.getChildNode("component",OrderofComponents_3layer);
 		if (xNode3.isEmpty()==1) {
 			printf("some value(s) of number_of_cores/number_of_L2s/number_of_L3s/number_of_NoCs is/are not correct!");
@@ -1337,7 +1338,7 @@ void ParseXML::parse(char* filepath)
 		}
 
 		//__________________________________________Get system.pcie____________________________________________
-		if (OrderofComponents_3layer>0) OrderofComponents_3layer=OrderofComponents_3layer+1;
+		OrderofComponents_3layer=OrderofComponents_3layer+1;
 		xNode3=xNode2.getChildNode("component",OrderofComponents_3layer);
 		if (xNode3.isEmpty()==1) {
 			printf("some value(s) of number_of_cores/number_of_L2s/number_of_L3s/number_of_NoCs is/are not correct!");
@@ -1369,7 +1370,7 @@ void ParseXML::parse(char* filepath)
 			exit(0);
 		}
 		//__________________________________________Get system.flashcontroller____________________________________________
-		if (OrderofComponents_3layer>0) OrderofComponents_3layer=OrderofComponents_3layer+1;
+		OrderofComponents_3layer=OrderofComponents_3layer+1;
 		xNode3=xNode2.getChildNode("component",OrderofComponents_3layer);
 		if (xNode3.isEmpty()==1) {
 			printf("some value(s) of number_of_cores/number_of_L2s/number_of_L3s/number_of_NoCs is/are not correct!");

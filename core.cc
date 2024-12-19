@@ -1140,9 +1140,11 @@ EXECU::EXECU(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip
       clockRate = coredynp.clockRate;
       executionTime = coredynp.executionTime;
 	  rfu   = new RegFU(XML, ithCore, &interface_ip,coredynp);
-	  scheu = new SchedulerU(XML, ithCore, &interface_ip,coredynp);
+	  // DJ Make this false
+	  scheu = new SchedulerU(XML, ithCore, &interface_ip,coredynp, false);
 	  exeu  = new FunctionalUnit(XML, ithCore,&interface_ip, coredynp, ALU);
-	  area.set_area(area.get_area()+ exeu->area.get_area() + rfu->area.get_area() +scheu->area.get_area() );
+	  // DJ Remove scheu->get_area()
+	  area.set_area(area.get_area()+ exeu->area.get_area() + rfu->area.get_area());
 	  fu_height = exeu->FU_height;
 	  if (coredynp.num_fpus >0)
 	  {
@@ -1827,7 +1829,6 @@ Core::Core(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_)
  /*
   * initialize, compute and optimize individual components.
   */
-
   bool exit_flag = true;
 
   double pipeline_area_per_unit;
@@ -1844,12 +1845,14 @@ Core::Core(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_)
 
   clockRate = coredynp.clockRate;
   executionTime = coredynp.executionTime;
-  ifu          = new InstFetchU(XML, ithCore, &interface_ip,coredynp,exit_flag);
-  lsu          = new LoadStoreU(XML, ithCore, &interface_ip,coredynp,exit_flag);
-  mmu          = new MemManU   (XML, ithCore, &interface_ip,coredynp,exit_flag);
+  // DJ Removed InstFetchU, LoadStoreU, MemManU, UndiffCore with `false`
+  ifu          = new InstFetchU(XML, ithCore, &interface_ip,coredynp,false);
+  lsu          = new LoadStoreU(XML, ithCore, &interface_ip,coredynp,false);
+  mmu          = new MemManU   (XML, ithCore, &interface_ip,coredynp,false);
   exu          = new EXECU     (XML, ithCore, &interface_ip,lsu->lsq_height, coredynp,exit_flag);
-  undiffCore   = new UndiffCore(XML, ithCore, &interface_ip,coredynp,exit_flag);
-  if (coredynp.core_ty==OOO)
+	undiffCore   = new UndiffCore(XML, ithCore, &interface_ip,coredynp,false);
+	printf("%b", coredynp.core_ty == OOO);
+	if (coredynp.core_ty==OOO)
   {
 	  rnu = new RENAMINGU(XML, ithCore, &interface_ip,coredynp);
   }
@@ -1876,7 +1879,7 @@ Core::Core(ParseXML* XML_interface, int ithCore_, InputParameter* interface_ip_)
   if (lsu->exist)
   {
 	  lsu->area.set_area(lsu->area.get_area() + pipeline_area_per_unit);
-      area.set_area(area.get_area() + lsu->area.get_area());
+  	area.set_area(area.get_area() + lsu->area.get_area());
   }
   if (exu->exist)
   {

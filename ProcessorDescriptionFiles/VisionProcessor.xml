@@ -1,0 +1,209 @@
+<?xml version="1.0" ?>
+<component id="root" name="root">
+	<component id="system" name="system">
+        <param name="number_of_cores" value="1"/>
+        <param name="number_of_L1Directories" value="0"/>
+		<param name="number_of_L2Directories" value="0"/>
+        <param name="number_of_L2s" value="0"/> <!-- This number means how many L2 clusters in each (L3?) cluster there can be multiple banks/ports -->
+		<param name="Private_L2" value="0"/>
+		<param name="number_of_L3s" value="0"/> <!-- This number means how many L3 clusters -->
+		<param name="number_of_dir_levels" value="0"/>
+		<param name="domain_size" value="0"/>
+		<param name="first_level_dir" value="0"/>
+        <!-- IDEA NoC for inter communication? -->
+        <param name="number_of_NoCs" value="0"/>
+        <param name="homogeneous_cores" value="1"/><!--1 means homo -->
+		<param name="homogeneous_L2s" value="0"/>
+		<param name="homogeneous_L1Directories" value="0"/>
+		<param name="homogeneous_L2Directories" value="0"/>
+		<param name="homogeneous_L3s" value="0"/>
+		<param name="homogeneous_ccs" value="0"/><!--cache coherence hardware -->
+		<param name="homogeneous_NoCs" value="0"/>
+		<!-- VAR -->
+		<param name="core_tech_node" value="100"/><!-- nm -->
+		<!-- VAR -->
+		<param name="target_core_clockrate" value="10"/><!--MHz -->
+		<!-- <param name="target_chip_area" value="0"/> -->
+		<!-- VAR -->
+		<param name="temperature" value="340"/> <!-- Kelvin -->
+		<param name="number_cache_levels" value="0"/>
+		<!-- VAR -->
+		<param name="interconnect_projection_type" value="0"/><!--0: aggressive wire technology; 1: conservative wire technology -->
+		<param name="device_type" value="0"/><!--0: HP(High Performance Type); 1: LSTP(Low standby power) 2: LOP (Low Operating Power)  -->
+		<!-- IDEA for better intercore communication -->
+		<param name="longer_channel_device" value="0"/><!-- 0 no use; 1 use when possible -->
+		<!-- VAR -->
+		<param name="power_gating" value="0"/><!-- 0 not enabled; 1 enabled -->
+		<param name="machine_bits" value="1"/>
+		<param name="virtual_address_width" value="0"/>
+		<param name="physical_address_width" value="0"/>
+		<param name="virtual_memory_page_size" value="0"/>
+		<param name="Embedded" value="1"/>
+
+		<!-- RNTODO -->
+		<!-- <param name="vdd" value="0"/>
+		<param name="power_gating_vcc" value="0"/> -->
+
+		<!-- <stat name="total_cycles" value="100000"/> -->
+
+		<component id="system.core0" name="core0">
+			<param name="clock_rate" value="10"/>
+			<!-- VAR? -->
+			<param name="opt_local" value="1"/><!-- for cores with unknown timing, set to 0 to force off the opt flag -->
+			<param name="x86" value="0"/>
+			<param name="machine_bits" value="1"/>
+			<param name="virtual_address_width" value="0"/>
+			<param name="physical_address_width" value="0"/>
+			<param name="instruction_length" value="20"/>
+			<param name="opcode_width" value="5"/>
+			<param name="micro_opcode_width" value="0"/>
+			<param name="machine_type" value="1"/><!-- 1 inorder; 0 OOO--><!-- inorder/OoO -->
+			<!-- UNUSED-->
+			<param name="internal_datapath_width" value="1"/>
+			<param name="number_hardware_threads" value="1"/>
+
+			<!-- IMP WE DONT FETCH INSTRUCTIONS FROM MEMORY - WHAT TO DO? -->
+			<!-- WHERE TO THE INSTRUCTIONS EVEN COME FROM? -->
+			<param name="fetch_width" value="0"/>
+			<!-- fetch_width determines the size of cachelines of L1 cache block -->
+			<param name="number_instruction_fetch_ports" value="0"/>
+			<param name="decode_width" value="0"/>
+			<!-- decode_width determines the number of ports of the renaming table (both RAM and CAM) scheme -->
+			<param name="issue_width" value="0"/>
+			<!-- issue_width determines the number of ports of Issue window and other logic 
+			as in the complexity effective processors paper; issue_width==dispatch_width -->
+			<param name="commit_width" value="0"/>
+			<!-- commit_width determines the number of ports of register files -->
+			<param name="fp_issue_width" value="0"/>
+			<param name="prediction_width" value="0"/>
+			
+			<!-- RNTODO -->
+			<!-- <param name="vdd" value="0"/>
+			<param name="power_gating_vcc" value="0"/> -->
+			<param name="pipelines_per_core" value="1,0"/>
+			<!--integer_pipeline and floating_pipelines, if the floating_pipelines is 0, then the pipeline is shared-->
+			<param name="pipeline_depth" value="1,0"/>
+			<!-- pipeline depth of int and fp, if pipeline is shared, the second number is the average cycles of fp ops -->
+
+			<param name="FPU" value="0"/>
+			<param name="divider_multiplier" value="0"/>
+			<param name="ALU_per_core" value="1"/>
+
+			<param name="FPU_per_core" value="0"/>
+			<param name="MUL_per_core" value="0"/>
+
+			<param name="instruction_buffer_size" value="0"/><!-- buffer between IF and ID stage -->
+			<param name="decoded_stream_buffer_size" value="0"/><!-- buffer between ID and sche/exe stage -->
+			<param name="instruction_window_scheme" value="0"/>
+			<param name="instruction_window_size" value="0"/>
+			<param name="fp_instruction_window_size" value="0"/>
+
+			<param name="ROB_size" value="0"/>
+
+			<param name="archi_Regs_IRF_size" value="20"/>
+			<param name="archi_Regs_FRF_size" value="0"/>
+			<param name="phy_Regs_IRF_size" value="20"/>
+			<param name="phy_Regs_FRF_size" value="0"/>
+
+			<!-- Irrelevant (I think) cause we have inorder architecture as opposed to OoO -->
+			<param name="rename_scheme" value="0"/>
+			<param name="checkpoint_depth" value="0"/>
+			<param name="register_windows_size" value="0"/>
+			<param name="LSU_order" value="0"/>
+			<param name="store_buffer_size" value="0"/>
+			<param name="load_buffer_size" value="0"/>
+			<param name="memory_ports" value="0"/>
+			<param name="Dcache_dual_pump" value="0"/>
+			<param name="RAS_size" value="0"/>
+
+			<!--
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"total_instructions")==0) {sys.core[i].total_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"int_instructions")==0) {sys.core[i].int_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_instructions")==0) {sys.core[i].fp_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"branch_instructions")==0) {sys.core[i].branch_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"branch_mispredictions")==0) {sys.core[i].branch_mispredictions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"committed_instructions")==0) {sys.core[i].committed_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"committed_int_instructions")==0) {sys.core[i].committed_int_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"committed_fp_instructions")==0) {sys.core[i].committed_fp_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"load_instructions")==0) {sys.core[i].load_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"store_instructions")==0) {sys.core[i].store_instructions=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"total_cycles")==0) {sys.core[i].total_cycles=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"idle_cycles")==0) {sys.core[i].idle_cycles=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+				if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"busy_cycles")==0) {sys.core[i].busy_cycles=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"instruction_buffer_reads")==0) {sys.core[i].instruction_buffer_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"instruction_buffer_write")==0) {sys.core[i].instruction_buffer_write=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"ROB_reads")==0) {sys.core[i].ROB_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"ROB_writes")==0) {sys.core[i].ROB_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"rename_reads")==0) {sys.core[i].rename_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"rename_writes")==0) {sys.core[i].rename_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_rename_reads")==0) {sys.core[i].fp_rename_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_rename_writes")==0) {sys.core[i].fp_rename_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"inst_window_reads")==0) {sys.core[i].inst_window_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"inst_window_writes")==0) {sys.core[i].inst_window_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"inst_window_wakeup_accesses")==0) {sys.core[i].inst_window_wakeup_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"inst_window_selections")==0) {sys.core[i].inst_window_selections=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_inst_window_reads")==0) {sys.core[i].fp_inst_window_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_inst_window_writes")==0) {sys.core[i].fp_inst_window_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fp_inst_window_wakeup_accesses")==0) {sys.core[i].fp_inst_window_wakeup_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"archi_int_regfile_reads")==0) {sys.core[i].archi_int_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"archi_float_regfile_reads")==0) {sys.core[i].archi_float_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"phy_int_regfile_reads")==0) {sys.core[i].phy_int_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"phy_float_regfile_reads")==0) {sys.core[i].phy_float_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"phy_int_regfile_writes")==0) {sys.core[i].archi_int_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"phy_float_regfile_writes")==0) {sys.core[i].archi_float_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"archi_int_regfile_writes")==0) {sys.core[i].phy_int_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"archi_float_regfile_writes")==0) {sys.core[i].phy_float_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"int_regfile_reads")==0) {sys.core[i].int_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"float_regfile_reads")==0) {sys.core[i].float_regfile_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"int_regfile_writes")==0) {sys.core[i].int_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"float_regfile_writes")==0) {sys.core[i].float_regfile_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"windowed_reg_accesses")==0) {sys.core[i].windowed_reg_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"windowed_reg_transports")==0) {sys.core[i].windowed_reg_transports=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"function_calls")==0) {sys.core[i].function_calls=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"context_switches")==0) {sys.core[i].context_switches=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"ialu_accesses")==0) {sys.core[i].ialu_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"fpu_accesses")==0) {sys.core[i].fpu_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"mul_accesses")==0) {sys.core[i].mul_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"cdb_alu_accesses")==0) {sys.core[i].cdb_alu_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"cdb_mul_accesses")==0) {sys.core[i].cdb_mul_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"cdb_fpu_accesses")==0) {sys.core[i].cdb_fpu_accesses=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"load_buffer_reads")==0) {sys.core[i].load_buffer_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"load_buffer_writes")==0) {sys.core[i].load_buffer_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"load_buffer_cams")==0) {sys.core[i].load_buffer_cams=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"store_buffer_reads")==0) {sys.core[i].store_buffer_reads=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"store_buffer_writes")==0) {sys.core[i].store_buffer_writes=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"store_buffer_cams")==0) {sys.core[i].store_buffer_cams=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"store_buffer_forwards")==0) {sys.core[i].store_buffer_forwards=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"main_memory_access")==0) {sys.core[i].main_memory_access=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"main_memory_read")==0) {sys.core[i].main_memory_read=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"main_memory_write")==0) {sys.core[i].main_memory_write=atoi(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"pipeline_duty_cycle")==0) {sys.core[i].pipeline_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"IFU_duty_cycle")==0) {sys.core[i].IFU_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"BR_duty_cycle")==0) {sys.core[i].BR_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"LSU_duty_cycle")==0) {sys.core[i].LSU_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"MemManU_I_duty_cycle")==0) {sys.core[i].MemManU_I_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"MemManU_D_duty_cycle")==0) {sys.core[i].MemManU_D_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"ALU_duty_cycle")==0) {sys.core[i].ALU_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"MUL_duty_cycle")==0) {sys.core[i].MUL_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"FPU_duty_cycle")==0) {sys.core[i].FPU_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"ALU_cdb_duty_cycle")==0) {sys.core[i].ALU_cdb_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"MUL_cdb_duty_cycle")==0) {sys.core[i].MUL_cdb_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+							if (strcmp(xNode3.getChildNode("stat",k).getAttribute("name"),"FPU_cdb_duty_cycle")==0) {sys.core[i].FPU_cdb_duty_cycle=atof(xNode3.getChildNode("stat",k).getAttribute("value"));continue;}
+			-->
+		</component>
+
+		<component id="system.mc" name="mc">
+			<param name="number_mcs" value="0"/>
+		</component>
+		<component id="system.niu" name="niu">
+			<param name="number_units" value="0"/>
+		</component>
+		<component id="system.pcie" name="pcie">
+			<param name="number_units" value="0"/>
+		</component>
+		<component id="system.flashc" name="flashc">
+			<param name="number_flashcs" value="0"/>
+		</component>
+    </component>
+</component>
